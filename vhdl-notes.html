@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>VHDL Notes</title>
-<!-- 2017-06-10 Sat 09:23 -->
+<!-- 2017-06-10 Sat 09:47 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Joshua Trahan" />
@@ -442,10 +442,10 @@ Here, C changes to 1 at 10ns (because of the inital delay from 0ns), then to 0 a
 <h4 id="sec-5-1-1"><span class="section-number-4">5.1.1</span> Dataflow description</h4>
 <div class="outline-text-4" id="text-5-1-1">
 <p>
-This only describes the flow of data, and timing is automatic.
+This describes the flow of data using signals.
 </p>
 </div>
-<ol class="org-ol"><li><a id="sec-5-1-1-1" name="sec-5-1-1-1"></a>Example<br  /><div class="outline-text-5" id="text-5-1-1-1">
+<ol class="org-ol"><li><a id="sec-5-1-1-1" name="sec-5-1-1-1"></a>Example: Without timings<br  /><div class="outline-text-5" id="text-5-1-1-1">
 <div class="org-src-container">
 
 <pre class="src src-vhdl">E &lt;= D <span style="color: #20b2aa; font-weight: bold;">or</span> (A <span style="color: #20b2aa; font-weight: bold;">and</span> B);
@@ -456,7 +456,7 @@ This defines the output signal E as the result of the Boolean algebra statement 
 </p>
 </div>
 </li>
-<li><a id="sec-5-1-1-2" name="sec-5-1-1-2"></a>Example<br  /><div class="outline-text-5" id="text-5-1-1-2">
+<li><a id="sec-5-1-1-2" name="sec-5-1-1-2"></a>Example: With timings<br  /><div class="outline-text-5" id="text-5-1-1-2">
 <div class="org-src-container">
 
 <pre class="src src-vhdl">C &lt;= A <span style="color: #20b2aa; font-weight: bold;">and</span> B <span style="color: #20b2aa; font-weight: bold;">after</span> 5 <span style="color: #deb887;">ns</span>;
@@ -530,7 +530,7 @@ This is because there is no delay time, so the value of CLK tries to switch ever
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Joshua Trahan</p>
-<p class="date">Created: 2017-06-10 Sat 09:23</p>
+<p class="date">Created: 2017-06-10 Sat 09:47</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.2.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

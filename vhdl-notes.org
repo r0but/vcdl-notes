@@ -115,13 +115,13 @@
 ** Basic circuit example
    [[file:Circuit1.png]] \\
 *** Dataflow description
-    This only describes the flow of data, and timing is automatic.
-**** Example
+    This describes the flow of data using signals.
+**** Example: Without timings
 #+BEGIN_SRC vhdl
   E <= D or (A and B);
 #+END_SRC
     This defines the output signal E as the result of the Boolean algebra statement ~D or (A and B)~.
-**** Example
+**** Example: With timings
 #+BEGIN_SRC vhdl
   C <= A and B after 5 ns;
   E <= C or D after 5 ns;
