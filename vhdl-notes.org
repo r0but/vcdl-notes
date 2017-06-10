@@ -3,6 +3,8 @@
 
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="export-style.css" />
 
+#+OPTIONS: toc:2
+
 * Xilinx Interface Quick Start
 ** Project Creation
    1. File -> New project.
