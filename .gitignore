@@ -1,0 +1,6 @@
+# MacOS filesystem litter
+.DS_Store
+
+# Backup files
+#*#
+*~

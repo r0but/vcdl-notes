@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>VHDL Notes</title>
+<!-- 2017-06-09 Fri 19:45 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Joshua Trahan" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="export-style.css" />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">VHDL Notes</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Xilinx interface</a>
+<ul>
+<li><a href="#sec-1-1">1.1. Source</a></li>
+<li><a href="#sec-1-2">1.2. Test Bench</a>
+<ul>
+<li><a href="#sec-1-2-1">1.2.1. Example testbench source</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-2">2. Design</a></li>
+<li><a href="#sec-3">3. Libraries</a>
+<ul>
+<li><a href="#sec-3-1">3.1. Standard Logic Library</a></li>
+</ul>
+</li>
+<li><a href="#sec-4">4. Concepts and Syntax</a>
+<ul>
+<li><a href="#sec-4-1">4.1. Entity</a></li>
+<li><a href="#sec-4-2">4.2. Signal</a></li>
+<li><a href="#sec-4-3">4.3. Bit vectors</a>
+<ul>
+<li><a href="#sec-4-3-1">4.3.1. Example</a></li>
+</ul>
+</li>
+<li><a href="#sec-4-4">4.4. Inertial delay</a>
+<ul>
+<li><a href="#sec-4-4-1">4.4.1. Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-5">5. Examples</a>
+<ul>
+<li><a href="#sec-5-1">5.1. Basic circuit example</a>
+<ul>
+<li><a href="#sec-5-1-1">5.1.1. Dataflow description</a></li>
+<li><a href="#sec-5-1-2">5.1.2. Structural description</a></li>
+</ul>
+</li>
+<li><a href="#sec-5-2">5.2. Repeater clock example</a>
+<ul>
+<li><a href="#sec-5-2-1">5.2.1. Source</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Xilinx interface</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Source</h3>
+<div class="outline-text-3" id="text-1-1">
+<ol class="org-ol">
+<li>File -&gt; New project.
+</li>
+<li>Configure for the target hardware.
+</li>
+<li>Right click in project explorer and select <code>New Source</code>.
+</li>
+<li>Select VHDL Module.
+</li>
+<li>Define inputs and outputs.
+</li>
+<li>Write source code between <code>begin</code> and <code>end</code> sections of <code>architecture</code> section.
+</li>
+<li>Implement Design -&gt; Synthesize -&gt; Check Syntax to verify syntax correctness.
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Test Bench</h3>
+<div class="outline-text-3" id="text-1-2">
+<ol class="org-ol">
+<li>Create new source, and select VHDL Test Bench.
+</li>
+<li>Associate test bench with module it's intended to test.
+</li>
+<li>If no timings are being used, delete all sections that have to do with timing (there should be two).
+</li>
+<li>Write tests in about line 70, between <code>begin</code> and <code>end process;</code>.
+</li>
+<li>Click Simulation above project hierarchy.
+</li>
+<li>Select test bench source file in project hierarchy. <b>Make sure to select the testbench file, not the source file nested under it.</b>
+</li>
+<li>Run Check Syntax.
+</li>
+<li>Run Simulate Behavioral Model.
+</li>
+</ol>
+</div>
+<div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1"><span class="section-number-4">1.2.1</span> Example testbench source</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<div class="org-src-container">
+
+<pre class="src src-vhdl">A &lt;= <span style="color: #ffa07a;">'0'</span>;
+B &lt;= <span style="color: #ffa07a;">'0'</span>;
+C &lt;= <span style="color: #ffa07a;">'0'</span>;
+<span style="color: #20b2aa; font-weight: bold;">wait</span> <span style="color: #20b2aa; font-weight: bold;">for</span> 10 <span style="color: #deb887;">ns</span>;
+
+A &lt;= <span style="color: #ffa07a;">'0'</span>;
+B &lt;= <span style="color: #ffa07a;">'1'</span>;
+C &lt;= <span style="color: #ffa07a;">'1'</span>;
+<span style="color: #20b2aa; font-weight: bold;">wait</span> <span style="color: #20b2aa; font-weight: bold;">for</span> 10 <span style="color: #deb887;">ns</span>;
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Design</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Spec -&gt; Design -&gt; Code -&gt; RTL Functional Netlist -&gt; Functional Simulation
+</p>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Libraries</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+A library contains multiple names. Use of a library must be specified in a <i>Library Clause</i> at the beginning of a source file. Use of names within the library must be specified in a <i>Use Clause</i>. I'm not sure if the use clause must immediately follow the library clause, or if it can be anywhere. There doesn't seem to be a downside to just putting it right after the library clause, though.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-vhdl"><span style="color: #cd853f;">-- </span><span style="color: #cd853f;">These lines give the entity access to all names in package</span>
+<span style="color: #cd853f;">-- </span><span style="color: #cd853f;">STD_LOGIC_1164 in the library IEEE.</span>
+<span style="color: #20b2aa; font-weight: bold;">library</span> <span style="color: #ff83fa;">IEEE</span>; <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">library clause</span>
+<span style="color: #20b2aa; font-weight: bold;">use</span> <span style="color: #ff83fa;">IEEE</span>.<span style="color: #ff83fa;">STD_LOGIC_1164</span>.<span style="color: #20b2aa; font-weight: bold;">all</span>; <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">use clause</span>
+</pre>
+</div>
+</div>
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> Standard Logic Library</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+<code>IEEE.STD_LOGIC_1164.ALL</code> in library <code>IEEE</code>.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Concepts and Syntax</h2>
+<div class="outline-text-2" id="text-4">
+</div><div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> Entity</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+An entity is basically an abstraction of a group of components. <a href="https://www.doulos.com/knowhow/vhdl_designers_guide/an_example_design_entity/">Here is a link to the resource I'm using.</a> An entity is broken up into two <i>design units</i>:
+</p>
+<ol class="org-ol">
+<li>Entity Declaration: This represents the external interface to the design entity.
+</li>
+<li>Architecture Body: This represents the internal workings of the design entity.
+</li>
+</ol>
+<div class="org-src-container">
+
+<pre class="src src-vhdl"><span style="color: #cd853f;">-- </span><span style="color: #cd853f;">VHDL code for AND-OR-INVERT gate</span>
+
+<span style="color: #cd853f;">-- </span><span style="color: #cd853f;">These lines give the entity access to all names in package</span>
+<span style="color: #cd853f;">-- </span><span style="color: #cd853f;">STD_LOGIC_1164 in the library IEEE.</span>
+<span style="color: #20b2aa; font-weight: bold;">library</span> <span style="color: #ff83fa;">IEEE</span>; <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">library clause</span>
+<span style="color: #20b2aa; font-weight: bold;">use</span> <span style="color: #ff83fa;">IEEE</span>.<span style="color: #ff83fa;">STD_LOGIC_1164</span>.<span style="color: #20b2aa; font-weight: bold;">all</span>; <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">use clause</span>
+
+<span style="color: #cd853f;">-- </span><span style="color: #cd853f;">Start of entity declaration</span>
+<span style="color: #20b2aa; font-weight: bold;">entity</span> <span style="color: #00ff7f;">AOI</span> <span style="color: #20b2aa; font-weight: bold;">is</span> <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">AOI is the name of this entity. Entity names are arbitrary.</span>
+<span style="color: #20b2aa; font-weight: bold;">port</span> (
+  <span style="color: #9acd32;">A</span>, <span style="color: #9acd32;">B</span>, <span style="color: #9acd32;">C</span>, <span style="color: #9acd32;">D</span>: <span style="color: #20b2aa; font-weight: bold;">in</span> <span style="color: #9370db;">STD_LOGIC</span>; <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">Ports A, B, C, and D are inputs of type STD_LOGIC.</span>
+  <span style="color: #9acd32;">F</span> : <span style="color: #20b2aa; font-weight: bold;">out</span> <span style="color: #9370db;">STD_LOGIC</span> <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">Port F is an output of type STD_LOGIC. (Should this line</span>
+                    <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">terimate with a semicolon?)</span>
+);
+<span style="color: #20b2aa; font-weight: bold;">end</span> <span style="color: #00ff7f;">AOI</span>;
+<span style="color: #cd853f;">-- </span><span style="color: #cd853f;">End of entity declaration</span>
+
+<span style="color: #cd853f;">-- </span><span style="color: #cd853f;">Start of architecture body</span>
+<span style="color: #20b2aa; font-weight: bold;">architecture</span> <span style="color: #00ff7f;">V1</span> <span style="color: #20b2aa; font-weight: bold;">of</span> <span style="color: #00ff7f;">AOI</span> <span style="color: #20b2aa; font-weight: bold;">is</span> <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">Entities can have multiple architectures. The name</span>
+                          <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">of this one is V1. Architecture names are arbitrary.</span>
+<span style="color: #20b2aa; font-weight: bold;">begin</span> <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">End of architecture declaration and beginning of architecture definition.</span>
+  F &lt;= <span style="color: #20b2aa; font-weight: bold;">not</span> ((A <span style="color: #20b2aa; font-weight: bold;">and</span> B) <span style="color: #20b2aa; font-weight: bold;">or</span> (C <span style="color: #20b2aa; font-weight: bold;">and</span> D)); <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">The logic of the architecture.</span>
+<span style="color: #20b2aa; font-weight: bold;">end</span> <span style="color: #00ff7f;">V1</span>; <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">End of architecture definition.</span>
+<span style="color: #cd853f;">-- </span><span style="color: #cd853f;">End of architecture body</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2"><span class="section-number-3">4.2</span> Signal</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+A signal is kind of like a variable, except it represents an input/output element of a circuit. Example:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-vhdl">A &lt;= B <span style="color: #20b2aa; font-weight: bold;">or</span> C; <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">A, B, and C are all signals.</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4-3" class="outline-3">
+<h3 id="sec-4-3"><span class="section-number-3">4.3</span> Bit vectors</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+A bit vector is basically just an array of bits. They can be used with gates just like regular bits. 
+</p>
+</div>
+<div id="outline-container-sec-4-3-1" class="outline-4">
+<h4 id="sec-4-3-1"><span class="section-number-4">4.3.1</span> Example</h4>
+<div class="outline-text-4" id="text-4-3-1">
+<p>
+The circuit on the right is equivalent to all four of the circuits on the left combined: <br  />
+   <img src="Bit-vector.png" alt="Bit-vector.png" />
+</p>
+
+<p>
+Source:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-vhdl">C(3) &lt;= A(3) <span style="color: #20b2aa; font-weight: bold;">and</span> B(3);
+C(2) &lt;= A(2) <span style="color: #20b2aa; font-weight: bold;">and</span> B(2);
+C(1) &lt;= A(1) <span style="color: #20b2aa; font-weight: bold;">and</span> B(1);
+C(0) &lt;= A(0) <span style="color: #20b2aa; font-weight: bold;">and</span> B(0);
+</pre>
+</div>
+<p>
+This is equivalent to:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-vhdl">C &lt;= A <span style="color: #20b2aa; font-weight: bold;">and</span> B;
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4-4" class="outline-3">
+<h3 id="sec-4-4"><span class="section-number-3">4.4</span> Inertial delay</h3>
+<div class="outline-text-3" id="text-4-4">
+<p>
+If an input to a statement is changed before the output is assigned because of the "after" statement, the output will not be affected by the new value of the input.
+</p>
+</div>
+<div id="outline-container-sec-4-4-1" class="outline-4">
+<h4 id="sec-4-4-1"><span class="section-number-4">4.4.1</span> Example</h4>
+<div class="outline-text-4" id="text-4-4-1">
+<p>
+Let's say all input signals start with a value of 1. A changes to 0 at 15ns, then to 1 at 30ns, then to 0 at 35ns.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-vhdl">C &lt;= A <span style="color: #20b2aa; font-weight: bold;">and</span> B <span style="color: #20b2aa; font-weight: bold;">after</span> 10 <span style="color: #deb887;">ns</span>;
+</pre>
+</div>
+<p>
+C will change to 1 at 10ns (because of the inital delay from 0ns), then to 0 at 25ns (in response to A changing at 15ns, taking into account the 10ns delay), but is stuck at 0 and doesn't respond to A's changes at 30ns and 35ns. This is because they occured within 10ns of each other. This problem can be fixed with the <b>transport</b> keyword.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-vhdl">C &lt;= <span style="color: #20b2aa; font-weight: bold;">transport</span> A <span style="color: #20b2aa; font-weight: bold;">and</span> B <span style="color: #20b2aa; font-weight: bold;">after</span> 10 <span style="color: #deb887;">ns</span>;
+</pre>
+</div>
+<p>
+Here, C changes to 1 at 10ns (because of the inital delay from 0ns), then to 0 at 25ns (in response to A changing at 15ns), then to 1 at 40ns, then to 0 at 45ns.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Examples</h2>
+<div class="outline-text-2" id="text-5">
+</div><div id="outline-container-sec-5-1" class="outline-3">
+<h3 id="sec-5-1"><span class="section-number-3">5.1</span> Basic circuit example</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+<img src="Circuit1.png" alt="Circuit1.png" /> <br  />
+</p>
+</div>
+<div id="outline-container-sec-5-1-1" class="outline-4">
+<h4 id="sec-5-1-1"><span class="section-number-4">5.1.1</span> Dataflow description</h4>
+<div class="outline-text-4" id="text-5-1-1">
+<p>
+This only describes the flow of data, and timing is automatic.
+</p>
+</div>
+<ol class="org-ol"><li><a id="sec-5-1-1-1" name="sec-5-1-1-1"></a>Example<br  /><div class="outline-text-5" id="text-5-1-1-1">
+<div class="org-src-container">
+
+<pre class="src src-vhdl">E &lt;= D <span style="color: #20b2aa; font-weight: bold;">or</span> (A <span style="color: #20b2aa; font-weight: bold;">and</span> B);
+</pre>
+</div>
+<p>
+This defines the output signal E as the result of the Boolean algebra statement <code>D or (A and B)</code>.
+</p>
+</div>
+</li>
+<li><a id="sec-5-1-1-2" name="sec-5-1-1-2"></a>Example<br  /><div class="outline-text-5" id="text-5-1-1-2">
+<div class="org-src-container">
+
+<pre class="src src-vhdl">C &lt;= A <span style="color: #20b2aa; font-weight: bold;">and</span> B <span style="color: #20b2aa; font-weight: bold;">after</span> 5 <span style="color: #deb887;">ns</span>;
+E &lt;= C <span style="color: #20b2aa; font-weight: bold;">or</span> D <span style="color: #20b2aa; font-weight: bold;">after</span> 5 <span style="color: #deb887;">ns</span>;
+</pre>
+</div>
+<p>
+This is similar code to the other example, except that it also includes timing. The order does not matter for these statements; the variables on the right hand side of the statement are constantly being monitored for change. When one changes, the statement is re-evaluated immediately, then the variable on the left hand side is changed accordingly <i>after the amount of time specified on the right-hand side</i>. So, if B is changed, the first line is re-evaluated, and after 5ns, the result assigned to C. Then, because there was a change in C, the second statement is re-evaluated, then after 5ns, assigned to E (total time since B changed is now 10ns). This helps simulate the timings that will occur on real hardware.
+</p>
+</div>
+</li></ol>
+</div>
+<div id="outline-container-sec-5-1-2" class="outline-4">
+<h4 id="sec-5-1-2"><span class="section-number-4">5.1.2</span> Structural description</h4>
+<div class="outline-text-4" id="text-5-1-2">
+<p>
+This is when you have to define the gates you're using, then describe how they're used.
+</p>
+</div>
+<ol class="org-ol"><li><a id="sec-5-1-2-1" name="sec-5-1-2-1"></a>Example<br  /><div class="outline-text-5" id="text-5-1-2-1">
+<div class="org-src-container">
+
+<pre class="src src-vhdl"><span style="color: #00ff7f;">Gate1</span>: <span style="color: #00ff7f;">AND2</span> <span style="color: #20b2aa; font-weight: bold;">port</span> <span style="color: #20b2aa; font-weight: bold;">map</span> (A, B, C);
+<span style="color: #00ff7f;">Gate2</span>: <span style="color: #00ff7f;">OR2</span> <span style="color: #20b2aa; font-weight: bold;">port</span> <span style="color: #20b2aa; font-weight: bold;">map</span> (C, D, E);
+</pre>
+</div>
+</div>
+</li>
+<li><a id="sec-5-1-2-2" name="sec-5-1-2-2"></a>Explanation<br  /><div class="outline-text-5" id="text-5-1-2-2">
+<p>
+Two gates are defined: Gate1, which is an AND gate with 2 inputs (hence AND2) and 1 output, and Gate2, which is an OR gate with 2 inputs (hence OR2) and one output. The first two signals listed in the parenthesis are the inputs, and the last is the output.
+</p>
+</div>
+</li></ol>
+</div>
+</div>
+<div id="outline-container-sec-5-2" class="outline-3">
+<h3 id="sec-5-2"><span class="section-number-3">5.2</span> Repeater clock example</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+<img src="Clock.png" alt="Clock.png" /> <br  />
+   This circuit inverts the signal every 10ns, creating a clock with a period of 20ns, which continues indefinitely.
+</p>
+</div>
+<div id="outline-container-sec-5-2-1" class="outline-4">
+<h4 id="sec-5-2-1"><span class="section-number-4">5.2.1</span> Source</h4>
+<div class="outline-text-4" id="text-5-2-1">
+<p>
+The following source is correct:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-vhdl">CLK &lt;= <span style="color: #20b2aa; font-weight: bold;">not</span> CLK <span style="color: #20b2aa; font-weight: bold;">after</span> 10 <span style="color: #deb887;">ns</span>;
+</pre>
+</div>
+<p>
+However, the following source is incorrect and will cause a runtime error:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-vhdl">CLK &lt;= <span style="color: #20b2aa; font-weight: bold;">not</span> CLK;
+</pre>
+</div>
+<p>
+This is because there is no delay time, so the value of CLK tries to switch every 0ns, and time will never advance to 1ns. 
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Joshua Trahan</p>
+<p class="date">Created: 2017-06-09 Fri 19:45</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.2.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
