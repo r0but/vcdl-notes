@@ -107,6 +107,8 @@
      enable <= '1'; -- Assignment
      A <= B or C; -- A, B, and C are all signals.
    #+END_SRC
+** Variables
+   A variable can be assigned a value at any time, and the statements assigning value to variables are executed sequentially. Variables can only be local, and are primarily just useful for storing temporary information to view during simulation. Declaration syntax is ~VARIABLE var_name: var_type [range] [:= initial_value]~. Assignment operator is ~:=~.
 * Data Types
 ** Bit vectors
    A bit vector is basically just an array of bits. They can be used with gates just like regular bits. Declaration example:
