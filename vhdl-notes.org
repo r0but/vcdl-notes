@@ -1,7 +1,7 @@
 #+TITLE: VHDL Notes
 #+AUTHOR: Joshua Trahan
 
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="export-style.css" />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="style.css" />
 
 #+OPTIONS: toc:2
 
