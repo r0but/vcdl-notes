@@ -99,7 +99,7 @@
   
   Variables, on the other hand, are more like variables in a classical programming language. Statements assigning value to variables (and also reading from them?) are evaluated in sequential order.
 ** Signals
-   A signal is a representation of a value on a wire in a circuit. They *are not handled sequentially*. All input and output ports of an entity are signals. Declaration syntax is ~SIGNAL signal_name: signal_type [range] [:= initial_value];~. Their assignment operator is ~<=~.
+   A signal is a representation of a value on a wire in a circuit. *They are not handled sequentially*. All input and output ports of an entity are signals. Declaration syntax is ~SIGNAL signal_name: signal_type [range] [:= initial_value];~. Their assignment operator is ~<=~.
    
    Declaration example:
    #+BEGIN_SRC vhdl
@@ -158,7 +158,7 @@
    - ~ROL~: Rotate left.
    - ~ROR~: Rotate right.
 ** Concatentation
-   ~&~. This is used for grouping objects and values. Example:
+   The concatentation operator is ~&~. It is used for grouping objects and values. Example:
    #+BEGIN_SRC vhdl
      x <= "00011";
      y := x & "001"; -- Can this be assigned to a bit vector?

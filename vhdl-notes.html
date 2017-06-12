@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>VHDL Notes</title>
-<!-- 2017-06-12 Mon 17:11 -->
+<!-- 2017-06-12 Mon 17:17 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Joshua Trahan" />
@@ -382,7 +382,7 @@ Variables, on the other hand, are more like variables in a classical programming
 <h3 id="sec-3-1"><span class="section-number-3">3.1</span> Signals</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
-A signal is a representation of a value on a wire in a circuit. They <b>are not handled sequentially</b>. All input and output ports of an entity are signals. Declaration syntax is <code>SIGNAL signal_name: signal_type [range] [:= initial_value];</code>. Their assignment operator is <code>&lt;=</code>.
+A signal is a representation of a value on a wire in a circuit. <b>They are not handled sequentially</b>. All input and output ports of an entity are signals. Declaration syntax is <code>SIGNAL signal_name: signal_type [range] [:= initial_value];</code>. Their assignment operator is <code>&lt;=</code>.
 </p>
 
 <p>
@@ -535,7 +535,7 @@ These operators are in library <code>numeric_std</code>, as well as either <code
 <h3 id="sec-5-6"><span class="section-number-3">5.6</span> Concatentation</h3>
 <div class="outline-text-3" id="text-5-6">
 <p>
-<code>&amp;</code>. This is used for grouping objects and values. Example:
+The concatentation operator is <code>&amp;</code>. It is used for grouping objects and values. Example:
 </p>
 <div class="org-src-container">
 
@@ -682,7 +682,7 @@ This is because there is no delay time, so the value of CLK tries to switch ever
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Joshua Trahan</p>
-<p class="date">Created: 2017-06-12 Mon 17:11</p>
+<p class="date">Created: 2017-06-12 Mon 17:17</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.2.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
