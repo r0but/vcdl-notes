@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>VHDL Notes</title>
-<!-- 2017-06-12 Mon 16:31 -->
+<!-- 2017-06-12 Mon 16:46 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Joshua Trahan" />
@@ -307,28 +307,28 @@ Example:
 </p>
 <div class="org-src-container">
 
-<pre class="src src-vhdl"><span style="color: #cd853f;">-- </span><span style="color: #cd853f;">VHDL code for AND-OR-INVERT gate</span>
-
-<span style="color: #cd853f;">-- </span><span style="color: #cd853f;">These lines give the entity access to all names in package</span>
+<pre class="src src-vhdl"><span style="color: #cd853f;">-- </span><span style="color: #cd853f;">These lines give the entity access to all names in package</span>
 <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">STD_LOGIC_1164 in the library IEEE.</span>
 <span style="color: #20b2aa; font-weight: bold;">library</span> <span style="color: #ff83fa;">IEEE</span>; <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">library clause</span>
 <span style="color: #20b2aa; font-weight: bold;">use</span> <span style="color: #ff83fa;">IEEE</span>.<span style="color: #ff83fa;">STD_LOGIC_1164</span>.<span style="color: #20b2aa; font-weight: bold;">all</span>; <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">use clause</span>
 
 <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">Start of entity declaration</span>
-<span style="color: #20b2aa; font-weight: bold;">entity</span> <span style="color: #00ff7f;">AOI</span> <span style="color: #20b2aa; font-weight: bold;">is</span> <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">AOI is the name of this entity. Entity names are arbitrary.</span>
+<span style="color: #20b2aa; font-weight: bold;">entity</span> <span style="color: #00ff7f;">my_entity</span> <span style="color: #20b2aa; font-weight: bold;">is</span> <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">my_entity is the name of this entity. Entity names are</span>
+                    <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">arbitrary, but cannot be VHDL keywords.</span>
 <span style="color: #20b2aa; font-weight: bold;">port</span> (
   <span style="color: #9acd32;">A</span>, <span style="color: #9acd32;">B</span>, <span style="color: #9acd32;">C</span>, <span style="color: #9acd32;">D</span>: <span style="color: #20b2aa; font-weight: bold;">in</span> <span style="color: #9370db;">STD_LOGIC</span>; <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">Ports A, B, C, and D are inputs of type STD_LOGIC.</span>
   <span style="color: #9acd32;">F</span>: <span style="color: #20b2aa; font-weight: bold;">out</span> <span style="color: #9370db;">STD_LOGIC</span>; <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">Port F is an output of type STD_LOGIC.</span>
 );
-<span style="color: #20b2aa; font-weight: bold;">end</span> <span style="color: #00ff7f;">AOI</span>;
+<span style="color: #20b2aa; font-weight: bold;">end</span> <span style="color: #00ff7f;">my_entity</span>;
 <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">End of entity declaration</span>
 
-<span style="color: #cd853f;">-- </span><span style="color: #cd853f;">Start of architecture body</span>
-<span style="color: #20b2aa; font-weight: bold;">architecture</span> <span style="color: #00ff7f;">V1</span> <span style="color: #20b2aa; font-weight: bold;">of</span> <span style="color: #00ff7f;">AOI</span> <span style="color: #20b2aa; font-weight: bold;">is</span> <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">Entities can have multiple architectures. The name</span>
-                          <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">of this one is V1. Architecture names are arbitrary.</span>
+<span style="color: #cd853f;">-- </span><span style="color: #cd853f;">Entities can have multiple architectures. The name of this architecture is</span>
+<span style="color: #cd853f;">-- </span><span style="color: #cd853f;">arch_1, and it belongs to my_entity. Architecture names are arbitrary, but</span>
+<span style="color: #cd853f;">-- </span><span style="color: #cd853f;">cannot be VHDL keywords.</span>
+<span style="color: #20b2aa; font-weight: bold;">architecture</span> <span style="color: #00ff7f;">arch_1</span> <span style="color: #20b2aa; font-weight: bold;">of</span> <span style="color: #00ff7f;">my_entity</span> <span style="color: #20b2aa; font-weight: bold;">is</span> 
 <span style="color: #20b2aa; font-weight: bold;">begin</span> <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">End of architecture declaration and beginning of architecture definition.</span>
-  F &lt;= <span style="color: #20b2aa; font-weight: bold;">not</span> ((A <span style="color: #20b2aa; font-weight: bold;">and</span> B) <span style="color: #20b2aa; font-weight: bold;">or</span> (C <span style="color: #20b2aa; font-weight: bold;">and</span> D)); <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">The logic of the architecture.</span>
-<span style="color: #20b2aa; font-weight: bold;">end</span> <span style="color: #00ff7f;">V1</span>; <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">End of architecture definition.</span>
+  F &lt;= <span style="color: #20b2aa; font-weight: bold;">not</span> A <span style="color: #20b2aa; font-weight: bold;">and</span> ((B <span style="color: #20b2aa; font-weight: bold;">or</span> C) <span style="color: #20b2aa; font-weight: bold;">and</span> D); <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">The logic of the architecture.</span>
+<span style="color: #20b2aa; font-weight: bold;">end</span> <span style="color: #00ff7f;">arch_1</span>; <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">End of architecture definition.</span>
 <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">End of architecture body</span>
 </pre>
 </div>
@@ -361,7 +361,7 @@ A library contains multiple names. Use of a library must be specified in a <i>Li
 <h3 id="sec-2-2"><span class="section-number-3">2.2</span> Entity</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
-An entity is basically an abstraction of a group of components. <a href="https://www.doulos.com/knowhow/vhdl_designers_guide/an_example_design_entity/">Here is a link to a resource I'm using.</a> A <i>port</i> is an input/output element of an entity, representing a pin. Every input and output port of an entity is a signal. An entity is broken up into two <i>design units</i>: the <i>Entity Declaration</i>, and the <i>Architecture Body</i>.
+An entity is basically an abstraction of a group of components. <a href="https://www.doulos.com/knowhow/vhdl_designers_guide/an_example_design_entity/">Here is a link to a resource I'm using.</a> A <i>port</i> is an input/output element of an entity, representing a pin. Every input and output port of an entity is a signal. An entity is broken up into two <i>design units</i>: the <i>Entity Declaration</i>, and the <i>Architecture Body</i>. Names of entities and architectures are arbitrary, but cannot be VHDL keywords.
 </p>
 </div>
 </div>
@@ -381,7 +381,10 @@ Variables, on the other hand, are more like variables in a classical programming
 <h3 id="sec-3-1"><span class="section-number-3">3.1</span> Signals</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
-A signal is a representation of a value on a wire in a circuit. They <b>are not handled sequentially</b>. All input and output ports of an entity are signals. Declaration syntax is <code>SIGNAL signal_name: signal_type [range] [:= initial_value];</code>
+A signal is a representation of a value on a wire in a circuit. They <b>are not handled sequentially</b>. All input and output ports of an entity are signals. Declaration syntax is <code>SIGNAL signal_name: signal_type [range] [:= initial_value];</code>. Their assignment operator is <code>&lt;=</code>.
+</p>
+
+<p>
 Declaration example:
 </p>
 <div class="org-src-container">
@@ -543,7 +546,7 @@ y := x &amp; <span style="color: #ffa07a;">"001"</span>; <span style="color: #cd
 <h3 id="sec-6-1"><span class="section-number-3">6.1</span> Delay</h3>
 <div class="outline-text-3" id="text-6-1">
 <p>
-Delay is specified using the <code>after</code> keyword. The signals on the right hand side of the statement are constantly being monitored for change. When one changes, the statement is re-evaluated immediately, then the signal on the left hand side is changed accordingly <i>after the amount of time specified on the right-hand side</i>. If an input to a statement is changed before that time has elapsed, output will not be affected by the new value of the input.
+Delay is specified using the <code>after</code> keyword. The signals on the right hand side of the statement are constantly being monitored for change. When one changes, the statement is re-evaluated immediately, then theo signal on the left hand side is changed accordingly <i>after the amount of time specified on the right-hand side</i>. If an input to a statement is changed before that time has elapsed, output will not be affected by the new value of the input.
 </p>
 </div>
 </div>
@@ -670,7 +673,7 @@ This is because there is no delay time, so the value of CLK tries to switch ever
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Joshua Trahan</p>
-<p class="date">Created: 2017-06-12 Mon 16:31</p>
+<p class="date">Created: 2017-06-12 Mon 16:46</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.2.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

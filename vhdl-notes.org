@@ -58,29 +58,29 @@
      
   Example:
   #+BEGIN_SRC vhdl
-       -- VHDL code for AND-OR-INVERT gate
+    -- These lines give the entity access to all names in package
+    -- STD_LOGIC_1164 in the library IEEE.
+    library IEEE; -- library clause
+    use IEEE.STD_LOGIC_1164.all; -- use clause
 
-       -- These lines give the entity access to all names in package
-       -- STD_LOGIC_1164 in the library IEEE.
-       library IEEE; -- library clause
-       use IEEE.STD_LOGIC_1164.all; -- use clause
+    -- Start of entity declaration
+    entity my_entity is -- my_entity is the name of this entity. Entity names are
+                        -- arbitrary, but cannot be VHDL keywords.
+    port (
+      A, B, C, D: in STD_LOGIC; -- Ports A, B, C, and D are inputs of type STD_LOGIC.
+      F: out STD_LOGIC; -- Port F is an output of type STD_LOGIC.
+    );
+    end my_entity;
+    -- End of entity declaration
 
-       -- Start of entity declaration
-       entity AOI is -- AOI is the name of this entity. Entity names are arbitrary.
-       port (
-         A, B, C, D: in STD_LOGIC; -- Ports A, B, C, and D are inputs of type STD_LOGIC.
-         F: out STD_LOGIC; -- Port F is an output of type STD_LOGIC.
-       );
-       end AOI;
-       -- End of entity declaration
-
-       -- Start of architecture body
-       architecture V1 of AOI is -- Entities can have multiple architectures. The name
-                                 -- of this one is V1. Architecture names are arbitrary.
-       begin -- End of architecture declaration and beginning of architecture definition.
-         F <= not ((A and B) or (C and D)); -- The logic of the architecture.
-       end V1; -- End of architecture definition.
-       -- End of architecture body
+    -- Entities can have multiple architectures. The name of this architecture is
+    -- arch_1, and it belongs to my_entity. Architecture names are arbitrary, but
+    -- cannot be VHDL keywords.
+    architecture arch_1 of my_entity is 
+    begin -- End of architecture declaration and beginning of architecture definition.
+      F <= not A and ((B or C) and D); -- The logic of the architecture.
+    end arch_1; -- End of architecture definition.
+    -- End of architecture body
   #+END_SRC
 ** Libraries
    A library contains multiple names. Use of a library must be specified in a /Library Clause/ at the beginning of a source file. Use of names within the library must be specified in a /Use Clause/.
@@ -93,13 +93,14 @@
 *** Standard Logic Library
     ~IEEE.STD_LOGIC_1164.ALL~ in library ~IEEE~.
 ** Entity
-   An entity is basically an abstraction of a group of components. [[https://www.doulos.com/knowhow/vhdl_designers_guide/an_example_design_entity/][Here is a link to a resource I'm using.]] A /port/ is an input/output element of an entity, representing a pin. Every input and output port of an entity is a signal. An entity is broken up into two /design units/: the /Entity Declaration/, and the /Architecture Body/.
+   An entity is basically an abstraction of a group of components. [[https://www.doulos.com/knowhow/vhdl_designers_guide/an_example_design_entity/][Here is a link to a resource I'm using.]] A /port/ is an input/output element of an entity, representing a pin. Every input and output port of an entity is a signal. An entity is broken up into two /design units/: the /Entity Declaration/, and the /Architecture Body/. Names of entities and architectures are arbitrary, but cannot be VHDL keywords.
 * Signals and Variables
   The distinction between signals and variables is important. *Signals are not updated sequentially*, and statements involving signals are not executed sequentially. Signals are part of the *simulation*; they are updated in the order that those signals would be updated on an actual circuit.
   
   Variables, on the other hand, are more like variables in a classical programming language. Statements assigning value to variables (and also reading from them?) are evaluated in sequential order.
 ** Signals
-   A signal is a representation of a value on a wire in a circuit. They *are not handled sequentially*. All input and output ports of an entity are signals. Declaration syntax is ~SIGNAL signal_name: signal_type [range] [:= initial_value];~
+   A signal is a representation of a value on a wire in a circuit. They *are not handled sequentially*. All input and output ports of an entity are signals. Declaration syntax is ~SIGNAL signal_name: signal_type [range] [:= initial_value];~. Their assignment operator is ~<=~.
+   
    Declaration example:
    #+BEGIN_SRC vhdl
      signal enable: BIT := '0'; -- Declaration
