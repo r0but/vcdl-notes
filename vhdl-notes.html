@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>VHDL Notes</title>
-<!-- 2017-06-12 Mon 13:46 -->
+<!-- 2017-06-12 Mon 16:31 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Joshua Trahan" />
@@ -148,6 +148,7 @@ for the JavaScript code in this tag.
 <li><a href="#sec-1-1">1.1. Project Creation</a></li>
 <li><a href="#sec-1-2">1.2. New Source File</a></li>
 <li><a href="#sec-1-3">1.3. Test Bench</a></li>
+<li><a href="#sec-1-4">1.4. Schematic Viewing</a></li>
 </ul>
 </li>
 <li><a href="#sec-2">2. Code model</a>
@@ -156,28 +157,32 @@ for the JavaScript code in this tag.
 <li><a href="#sec-2-2">2.2. Entity</a></li>
 </ul>
 </li>
-<li><a href="#sec-3">3. Data Types</a>
+<li><a href="#sec-3">3. Signals and Variables</a>
 <ul>
-<li><a href="#sec-3-1">3.1. Signal</a></li>
-<li><a href="#sec-3-2">3.2. Bit vectors</a></li>
+<li><a href="#sec-3-1">3.1. Signals</a></li>
 </ul>
 </li>
-<li><a href="#sec-4">4. Operators</a>
+<li><a href="#sec-4">4. Data Types</a>
 <ul>
-<li><a href="#sec-4-1">4.1. Logical</a></li>
-<li><a href="#sec-4-2">4.2. Assignment</a></li>
-<li><a href="#sec-4-3">4.3. Arithmetic</a></li>
-<li><a href="#sec-4-4">4.4. Comparison</a></li>
-<li><a href="#sec-4-5">4.5. Shift operators</a></li>
-<li><a href="#sec-4-6">4.6. Concatentation</a></li>
+<li><a href="#sec-4-1">4.1. Bit vectors</a></li>
 </ul>
 </li>
-<li><a href="#sec-5">5. Timing</a>
+<li><a href="#sec-5">5. Operators</a>
 <ul>
-<li><a href="#sec-5-1">5.1. Delay</a></li>
-<li><a href="#sec-5-2">5.2. Inertial vs. Transport Delay</a></li>
-<li><a href="#sec-5-3">5.3. Basic circuit example</a></li>
-<li><a href="#sec-5-4">5.4. Repeater clock example</a></li>
+<li><a href="#sec-5-1">5.1. Logical</a></li>
+<li><a href="#sec-5-2">5.2. Assignment</a></li>
+<li><a href="#sec-5-3">5.3. Arithmetic</a></li>
+<li><a href="#sec-5-4">5.4. Comparison</a></li>
+<li><a href="#sec-5-5">5.5. Shift operators</a></li>
+<li><a href="#sec-5-6">5.6. Concatentation</a></li>
+</ul>
+</li>
+<li><a href="#sec-6">6. Timing</a>
+<ul>
+<li><a href="#sec-6-1">6.1. Delay</a></li>
+<li><a href="#sec-6-2">6.2. Inertial vs. Transport Delay</a></li>
+<li><a href="#sec-6-3">6.3. Basic circuit example</a></li>
+<li><a href="#sec-6-4">6.4. Repeater clock example</a></li>
 </ul>
 </li>
 </ul>
@@ -223,7 +228,7 @@ for the JavaScript code in this tag.
 </li>
 <li>Associate test bench with module it's intended to test.
 </li>
-<li>If no timings are being used, delete all sections that have to do with timing (there should be two).
+<li>If no timings are being used, delete all sections that have to do with timing. These lines will contain <code>&lt;clock&gt;_period</code>.
 </li>
 <li>Write tests in about line 70, between <code>begin</code> and <code>end process;</code>.
 </li>
@@ -235,25 +240,50 @@ for the JavaScript code in this tag.
 </li>
 <li>Run Simulate Behavioral Model.
 </li>
+<li>A waveform will appear in a new window. Click the "Zoom to Full View" icon in the toolbar to see the entire waveform.
+</li>
+<li>Slide the yellow time thingy around to check values at certain points in time.
+</li>
+<li>If the waveform needs to be printed, print directly from the ISim applciation. This will allow you to specify a time range for the waveform.
+</li>
 </ol>
 </div>
 <div id="outline-container-sec-1-3-1" class="outline-4">
-<h4 id="sec-1-3-1"><span class="section-number-4">1.3.1</span> Example testbench source</h4>
+<h4 id="sec-1-3-1">Example testbench source</h4>
 <div class="outline-text-4" id="text-1-3-1">
 <div class="org-src-container">
 
-<pre class="src src-vhdl">A &lt;= <span style="color: #ffa07a;">'0'</span>;
-B &lt;= <span style="color: #ffa07a;">'0'</span>;
-C &lt;= <span style="color: #ffa07a;">'0'</span>;
-<span style="color: #20b2aa; font-weight: bold;">wait</span> <span style="color: #20b2aa; font-weight: bold;">for</span> 10 <span style="color: #deb887;">ns</span>;
+<pre class="src src-vhdl"><span style="color: #00ff7f;">stim_proc</span>: <span style="color: #20b2aa; font-weight: bold;">process</span>
+<span style="color: #20b2aa; font-weight: bold;">begin</span>
+  <span style="color: #20b2aa; font-weight: bold;">wait</span> <span style="color: #20b2aa; font-weight: bold;">for</span> 100ns;
 
-A &lt;= <span style="color: #ffa07a;">'0'</span>;
-B &lt;= <span style="color: #ffa07a;">'1'</span>;
-C &lt;= <span style="color: #ffa07a;">'1'</span>;
-<span style="color: #20b2aa; font-weight: bold;">wait</span> <span style="color: #20b2aa; font-weight: bold;">for</span> 10 <span style="color: #deb887;">ns</span>;
+  <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">First test case</span>
+  A &lt;= <span style="color: #ffa07a;">'0'</span>;
+  B &lt;= <span style="color: #ffa07a;">'0'</span>;
+  C &lt;= <span style="color: #ffa07a;">'0'</span>;
+  <span style="color: #20b2aa; font-weight: bold;">wait</span> <span style="color: #20b2aa; font-weight: bold;">for</span> 10 <span style="color: #deb887;">ns</span>;
+
+  <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">Second test case</span>
+  A &lt;= <span style="color: #ffa07a;">'0'</span>;
+  B &lt;= <span style="color: #ffa07a;">'1'</span>;
+  C &lt;= <span style="color: #ffa07a;">'1'</span>;
+  <span style="color: #20b2aa; font-weight: bold;">wait</span> <span style="color: #20b2aa; font-weight: bold;">for</span> 10 <span style="color: #deb887;">ns</span>;
+
+<span style="color: #20b2aa; font-weight: bold;">end</span> <span style="color: #20b2aa; font-weight: bold;">process</span>;
 </pre>
 </div>
 </div>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> Schematic Viewing</h3>
+<div class="outline-text-3" id="text-1-4">
+<ol class="org-ol">
+<li>Double click "View RTL Schematic", and choose "Start with a schematic of the top-level block.
+</li>
+<li>Double click on the block to view detail of it's implementation.
+</li>
+</ol>
 </div>
 </div>
 </div>
@@ -319,7 +349,7 @@ A library contains multiple names. Use of a library must be specified in a <i>Li
 </div>
 </div>
 <div id="outline-container-sec-2-1-1" class="outline-4">
-<h4 id="sec-2-1-1"><span class="section-number-4">2.1.1</span> Standard Logic Library</h4>
+<h4 id="sec-2-1-1">Standard Logic Library</h4>
 <div class="outline-text-4" id="text-2-1-1">
 <p>
 <code>IEEE.STD_LOGIC_1164.ALL</code> in library <code>IEEE</code>.
@@ -331,37 +361,57 @@ A library contains multiple names. Use of a library must be specified in a <i>Li
 <h3 id="sec-2-2"><span class="section-number-3">2.2</span> Entity</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
-An entity is basically an abstraction of a group of components. <a href="https://www.doulos.com/knowhow/vhdl_designers_guide/an_example_design_entity/">Here is a link to the resource I'm using.</a> Every input and output port of an entity is a signal. An entity is broken up into two <i>design units</i>: the <i>Entity Declaration</i>, and the <i>Architecture Body</i>.
+An entity is basically an abstraction of a group of components. <a href="https://www.doulos.com/knowhow/vhdl_designers_guide/an_example_design_entity/">Here is a link to a resource I'm using.</a> A <i>port</i> is an input/output element of an entity, representing a pin. Every input and output port of an entity is a signal. An entity is broken up into two <i>design units</i>: the <i>Entity Declaration</i>, and the <i>Architecture Body</i>.
 </p>
 </div>
 </div>
 </div>
 <div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> Data Types</h2>
+<h2 id="sec-3"><span class="section-number-2">3</span> Signals and Variables</h2>
 <div class="outline-text-2" id="text-3">
-</div><div id="outline-container-sec-3-1" class="outline-3">
-<h3 id="sec-3-1"><span class="section-number-3">3.1</span> Signal</h3>
+<p>
+The distinction between signals and variables is important. <b>Signals are not updated sequentially</b>, and statements involving signals are not executed sequentially. Signals are part of the <b>simulation</b>; they are updated in the order that those signals would be updated on an actual circuit.
+</p>
+
+<p>
+Variables, on the other hand, are more like variables in a classical programming language. Statements assigning value to variables (and also reading from them?) are evaluated in sequential order.
+</p>
+</div>
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> Signals</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
-A signal is kind of like a variable, except it represents an input/output element of a circuit. All input and output ports of an entity are signals. Example:
+A signal is a representation of a value on a wire in a circuit. They <b>are not handled sequentially</b>. All input and output ports of an entity are signals. Declaration syntax is <code>SIGNAL signal_name: signal_type [range] [:= initial_value];</code>
+Declaration example:
 </p>
 <div class="org-src-container">
 
-<pre class="src src-vhdl">A &lt;= B <span style="color: #20b2aa; font-weight: bold;">or</span> C; <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">A, B, and C are all signals.</span>
+<pre class="src src-vhdl"><span style="color: #20b2aa; font-weight: bold;">signal</span> <span style="color: #9acd32;">enable</span>: <span style="color: #9370db;">BIT</span> := <span style="color: #ffa07a;">'0'</span>; <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">Declaration</span>
+enable &lt;= <span style="color: #ffa07a;">'1'</span>; <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">Assignment</span>
+A &lt;= B <span style="color: #20b2aa; font-weight: bold;">or</span> C; <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">A, B, and C are all signals.</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-sec-3-2" class="outline-3">
-<h3 id="sec-3-2"><span class="section-number-3">3.2</span> Bit vectors</h3>
-<div class="outline-text-3" id="text-3-2">
-<p>
-A bit vector is basically just an array of bits. They can be used with gates just like regular bits. 
-</p>
 </div>
-<div id="outline-container-sec-3-2-1" class="outline-4">
-<h4 id="sec-3-2-1"><span class="section-number-4">3.2.1</span> Example</h4>
-<div class="outline-text-4" id="text-3-2-1">
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Data Types</h2>
+<div class="outline-text-2" id="text-4">
+</div><div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> Bit vectors</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+A bit vector is basically just an array of bits. They can be used with gates just like regular bits. Declaration example:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-vhdl"><span style="color: #20b2aa; font-weight: bold;">signal</span> a = <span style="color: #9370db;">BIT_VECTOR</span>(7 <span style="color: #20b2aa; font-weight: bold;">downto</span> 0); <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">8 bits, with index 7 being MSB?</span>
+</pre>
+</div>
+</div>
+<div id="outline-container-sec-4-1-1" class="outline-4">
+<h4 id="sec-4-1-1">Example</h4>
+<div class="outline-text-4" id="text-4-1-1">
 <p>
 The circuit on the right is equivalent to all four of the circuits on the left combined: <br  />
     <img src="Bit-vector.png" alt="Bit-vector.png" />
@@ -391,20 +441,20 @@ This is equivalent to:
 </div>
 </div>
 
-<div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4"><span class="section-number-2">4</span> Operators</h2>
-<div class="outline-text-2" id="text-4">
-</div><div id="outline-container-sec-4-1" class="outline-3">
-<h3 id="sec-4-1"><span class="section-number-3">4.1</span> Logical</h3>
-<div class="outline-text-3" id="text-4-1">
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Operators</h2>
+<div class="outline-text-2" id="text-5">
+</div><div id="outline-container-sec-5-1" class="outline-3">
+<h3 id="sec-5-1"><span class="section-number-3">5.1</span> Logical</h3>
+<div class="outline-text-3" id="text-5-1">
 <p>
 The available logical operators are NOT, AND, NAND, OR, NOR, XOR, and XNOR.
 </p>
 </div>
 </div>
-<div id="outline-container-sec-4-2" class="outline-3">
-<h3 id="sec-4-2"><span class="section-number-3">4.2</span> Assignment</h3>
-<div class="outline-text-3" id="text-4-2">
+<div id="outline-container-sec-5-2" class="outline-3">
+<h3 id="sec-5-2"><span class="section-number-3">5.2</span> Assignment</h3>
+<div class="outline-text-3" id="text-5-2">
 <ul class="org-ul">
 <li>"&lt;=": Assign a value to a signal.
 </li>
@@ -413,9 +463,9 @@ The available logical operators are NOT, AND, NAND, OR, NOR, XOR, and XNOR.
 </ul>
 </div>
 </div>
-<div id="outline-container-sec-4-3" class="outline-3">
-<h3 id="sec-4-3"><span class="section-number-3">4.3</span> Arithmetic</h3>
-<div class="outline-text-3" id="text-4-3">
+<div id="outline-container-sec-5-3" class="outline-3">
+<h3 id="sec-5-3"><span class="section-number-3">5.3</span> Arithmetic</h3>
+<div class="outline-text-3" id="text-5-3">
 <p>
 These operators are in library <code>numeric_std</code>, as well as either <code>std_logic_arith</code>, <code>numeric_std_unsigned</code>, <code>std_logic_unsigned</code>, or <code>std_logic_signed</code>.
 </p>
@@ -431,9 +481,9 @@ These operators are in library <code>numeric_std</code>, as well as either <code
 </ul>
 </div>
 </div>
-<div id="outline-container-sec-4-4" class="outline-3">
-<h3 id="sec-4-4"><span class="section-number-3">4.4</span> Comparison</h3>
-<div class="outline-text-3" id="text-4-4">
+<div id="outline-container-sec-5-4" class="outline-3">
+<h3 id="sec-5-4"><span class="section-number-3">5.4</span> Comparison</h3>
+<div class="outline-text-3" id="text-5-4">
 <ul class="org-ul">
 <li><code>=</code>: Equal to.
 </li>
@@ -450,9 +500,9 @@ These operators are in library <code>numeric_std</code>, as well as either <code
 </ul>
 </div>
 </div>
-<div id="outline-container-sec-4-5" class="outline-3">
-<h3 id="sec-4-5"><span class="section-number-3">4.5</span> Shift operators</h3>
-<div class="outline-text-3" id="text-4-5">
+<div id="outline-container-sec-5-5" class="outline-3">
+<h3 id="sec-5-5"><span class="section-number-3">5.5</span> Shift operators</h3>
+<div class="outline-text-3" id="text-5-5">
 <ul class="org-ul">
 <li><code>SLL</code>: Shift left logical.
 </li>
@@ -469,9 +519,9 @@ These operators are in library <code>numeric_std</code>, as well as either <code
 </ul>
 </div>
 </div>
-<div id="outline-container-sec-4-6" class="outline-3">
-<h3 id="sec-4-6"><span class="section-number-3">4.6</span> Concatentation</h3>
-<div class="outline-text-3" id="text-4-6">
+<div id="outline-container-sec-5-6" class="outline-3">
+<h3 id="sec-5-6"><span class="section-number-3">5.6</span> Concatentation</h3>
+<div class="outline-text-3" id="text-5-6">
 <p>
 <code>&amp;</code>. This is used for grouping objects and values. Example:
 </p>
@@ -486,20 +536,20 @@ y := x &amp; <span style="color: #ffa07a;">"001"</span>; <span style="color: #cd
 </div>
 </div>
 
-<div id="outline-container-sec-5" class="outline-2">
-<h2 id="sec-5"><span class="section-number-2">5</span> Timing</h2>
-<div class="outline-text-2" id="text-5">
-</div><div id="outline-container-sec-5-1" class="outline-3">
-<h3 id="sec-5-1"><span class="section-number-3">5.1</span> Delay</h3>
-<div class="outline-text-3" id="text-5-1">
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> Timing</h2>
+<div class="outline-text-2" id="text-6">
+</div><div id="outline-container-sec-6-1" class="outline-3">
+<h3 id="sec-6-1"><span class="section-number-3">6.1</span> Delay</h3>
+<div class="outline-text-3" id="text-6-1">
 <p>
-Delay is specified using the <code>after</code> keyword. The signals on the right hand side of the statement are constantly being monitored for change. When one changes, the statement is re-evaluated immediately, then the variable or signal on the left hand side is changed accordingly <i>after the amount of time specified on the right-hand side</i>. If an input to a statement is changed before that time has elapsed, output will not be affected by the new value of the input.
+Delay is specified using the <code>after</code> keyword. The signals on the right hand side of the statement are constantly being monitored for change. When one changes, the statement is re-evaluated immediately, then the signal on the left hand side is changed accordingly <i>after the amount of time specified on the right-hand side</i>. If an input to a statement is changed before that time has elapsed, output will not be affected by the new value of the input.
 </p>
 </div>
 </div>
-<div id="outline-container-sec-5-2" class="outline-3">
-<h3 id="sec-5-2"><span class="section-number-3">5.2</span> Inertial vs. Transport Delay</h3>
-<div class="outline-text-3" id="text-5-2">
+<div id="outline-container-sec-6-2" class="outline-3">
+<h3 id="sec-6-2"><span class="section-number-3">6.2</span> Inertial vs. Transport Delay</h3>
+<div class="outline-text-3" id="text-6-2">
 <p>
 Let's say all input signals start with a value of 1. A changes to 0 at 15ns, then to 1 at 30ns, then to 0 at 35ns.
 </p>
@@ -521,21 +571,21 @@ Here, C changes to 1 at 10ns (because of the inital delay from 0ns), then to 0 a
 </p>
 </div>
 </div>
-<div id="outline-container-sec-5-3" class="outline-3">
-<h3 id="sec-5-3"><span class="section-number-3">5.3</span> Basic circuit example</h3>
-<div class="outline-text-3" id="text-5-3">
+<div id="outline-container-sec-6-3" class="outline-3">
+<h3 id="sec-6-3"><span class="section-number-3">6.3</span> Basic circuit example</h3>
+<div class="outline-text-3" id="text-6-3">
 <p>
 <img src="Circuit1.png" alt="Circuit1.png" /> <br  />
 </p>
 </div>
-<div id="outline-container-sec-5-3-1" class="outline-4">
-<h4 id="sec-5-3-1"><span class="section-number-4">5.3.1</span> Dataflow description</h4>
-<div class="outline-text-4" id="text-5-3-1">
+<div id="outline-container-sec-6-3-1" class="outline-4">
+<h4 id="sec-6-3-1">Dataflow description</h4>
+<div class="outline-text-4" id="text-6-3-1">
 <p>
 This describes the flow of data using signals.
 </p>
 </div>
-<ol class="org-ol"><li><a id="sec-5-3-1-1" name="sec-5-3-1-1"></a>Example: Without timings<br  /><div class="outline-text-5" id="text-5-3-1-1">
+<ul class="org-ul"><li><a id="sec-6-3-1-1" name="sec-6-3-1-1"></a>Example: Without timings<br  /><div class="outline-text-5" id="text-6-3-1-1">
 <div class="org-src-container">
 
 <pre class="src src-vhdl">E &lt;= D <span style="color: #20b2aa; font-weight: bold;">or</span> (A <span style="color: #20b2aa; font-weight: bold;">and</span> B);
@@ -546,7 +596,7 @@ This defines the output signal E as the result of the Boolean algebra statement 
 </p>
 </div>
 </li>
-<li><a id="sec-5-3-1-2" name="sec-5-3-1-2"></a>Example: With timings<br  /><div class="outline-text-5" id="text-5-3-1-2">
+<li><a id="sec-6-3-1-2" name="sec-6-3-1-2"></a>Example: With timings<br  /><div class="outline-text-5" id="text-6-3-1-2">
 <div class="org-src-container">
 
 <pre class="src src-vhdl">C &lt;= A <span style="color: #20b2aa; font-weight: bold;">and</span> B <span style="color: #20b2aa; font-weight: bold;">after</span> 5 <span style="color: #deb887;">ns</span>;
@@ -557,16 +607,16 @@ E &lt;= C <span style="color: #20b2aa; font-weight: bold;">or</span> D <span sty
 This is similar code to the other example, except that it also includes timing. So, if B is changed, the first line is re-evaluated, and after 5ns, the result assigned to C. Then, because there was a change in C, the second statement is re-evaluated, then after 5ns, assigned to E (total time since B changed is now 10ns). This helps simulate the timings that will occur on real hardware.
 </p>
 </div>
-</li></ol>
+</li></ul>
 </div>
-<div id="outline-container-sec-5-3-2" class="outline-4">
-<h4 id="sec-5-3-2"><span class="section-number-4">5.3.2</span> Structural description</h4>
-<div class="outline-text-4" id="text-5-3-2">
+<div id="outline-container-sec-6-3-2" class="outline-4">
+<h4 id="sec-6-3-2">Structural description</h4>
+<div class="outline-text-4" id="text-6-3-2">
 <p>
 This is when you have to define the gates you're using, then describe how they're used.
 </p>
 </div>
-<ol class="org-ol"><li><a id="sec-5-3-2-1" name="sec-5-3-2-1"></a>Example<br  /><div class="outline-text-5" id="text-5-3-2-1">
+<ul class="org-ul"><li><a id="sec-6-3-2-1" name="sec-6-3-2-1"></a>Example<br  /><div class="outline-text-5" id="text-6-3-2-1">
 <div class="org-src-container">
 
 <pre class="src src-vhdl"><span style="color: #00ff7f;">Gate1</span>: <span style="color: #00ff7f;">AND2</span> <span style="color: #20b2aa; font-weight: bold;">port</span> <span style="color: #20b2aa; font-weight: bold;">map</span> (A, B, C);
@@ -575,25 +625,25 @@ This is when you have to define the gates you're using, then describe how they'r
 </div>
 </div>
 </li>
-<li><a id="sec-5-3-2-2" name="sec-5-3-2-2"></a>Explanation<br  /><div class="outline-text-5" id="text-5-3-2-2">
+<li><a id="sec-6-3-2-2" name="sec-6-3-2-2"></a>Explanation<br  /><div class="outline-text-5" id="text-6-3-2-2">
 <p>
 Two gates are defined: Gate1, which is an AND gate with 2 inputs (hence AND2) and 1 output, and Gate2, which is an OR gate with 2 inputs (hence OR2) and one output. The first two signals listed in the parenthesis are the inputs, and the last is the output.
 </p>
 </div>
-</li></ol>
+</li></ul>
 </div>
 </div>
-<div id="outline-container-sec-5-4" class="outline-3">
-<h3 id="sec-5-4"><span class="section-number-3">5.4</span> Repeater clock example</h3>
-<div class="outline-text-3" id="text-5-4">
+<div id="outline-container-sec-6-4" class="outline-3">
+<h3 id="sec-6-4"><span class="section-number-3">6.4</span> Repeater clock example</h3>
+<div class="outline-text-3" id="text-6-4">
 <p>
 <img src="Clock.png" alt="Clock.png" /> <br  />
    This circuit inverts the signal every 10ns, creating a clock with a period of 20ns, which continues indefinitely.
 </p>
 </div>
-<div id="outline-container-sec-5-4-1" class="outline-4">
-<h4 id="sec-5-4-1"><span class="section-number-4">5.4.1</span> Source</h4>
-<div class="outline-text-4" id="text-5-4-1">
+<div id="outline-container-sec-6-4-1" class="outline-4">
+<h4 id="sec-6-4-1">Source</h4>
+<div class="outline-text-4" id="text-6-4-1">
 <p>
 The following source is correct:
 </p>
@@ -620,7 +670,7 @@ This is because there is no delay time, so the value of CLK tries to switch ever
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Joshua Trahan</p>
-<p class="date">Created: 2017-06-12 Mon 13:46</p>
+<p class="date">Created: 2017-06-12 Mon 16:31</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.2.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

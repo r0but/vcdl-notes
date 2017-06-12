@@ -3,7 +3,7 @@
 
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="style.css" />
 
-#+OPTIONS: toc:2
+#+OPTIONS: toc:2 num:2
 
 * Xilinx Interface Quick Start
 ** Project Creation
@@ -18,32 +18,46 @@
 ** Test Bench
    1. Create new source, and select VHDL Test Bench.
    2. Associate test bench with module it's intended to test.
-   3. If no timings are being used, delete all sections that have to do with timing (there should be two).
+   3. If no timings are being used, delete all sections that have to do with timing. These lines will contain ~<clock>_period~.
    4. Write tests in about line 70, between ~begin~ and ~end process;~.
    5. Click Simulation above project hierarchy.
    6. Select test bench source file in project hierarchy. *Make sure to select the testbench file, not the source file nested under it.*
    7. Run Check Syntax.
    8. Run Simulate Behavioral Model.
+   9. A waveform will appear in a new window. Click the "Zoom to Full View" icon in the toolbar to see the entire waveform.
+   10. Slide the yellow time thingy around to check values at certain points in time.
+   11. If the waveform needs to be printed, print directly from the ISim applciation. This will allow you to specify a time range for the waveform.
 *** Example testbench source
     #+BEGIN_SRC vhdl
-  A <= '0';
-  B <= '0';
-  C <= '0';
-  wait for 10 ns;
+      stim_proc: process
+      begin
+        wait for 100ns;
 
-  A <= '0';
-  B <= '1';
-  C <= '1';
-  wait for 10 ns;
+        -- First test case
+        A <= '0';
+        B <= '0';
+        C <= '0';
+        wait for 10 ns;
+
+        -- Second test case
+        A <= '0';
+        B <= '1';
+        C <= '1';
+        wait for 10 ns;
+
+      end process;
     #+END_SRC
+** Schematic Viewing
+   1. Double click "View RTL Schematic", and choose "Start with a schematic of the top-level block.
+   2. Double click on the block to view detail of it's implementation.
 * Code model
   A source file (component?) has three parts, that appear in this order:
   1. Library use: Specifies libraries to use, and which parts of those libraries to use.
   2. Entity Declaration: This represents the external interface to the design entity.
   3. Architecture Body: This represents the internal workings of the design entity.
-
+     
   Example:
-     #+BEGIN_SRC vhdl
+  #+BEGIN_SRC vhdl
        -- VHDL code for AND-OR-INVERT gate
 
        -- These lines give the entity access to all names in package
@@ -67,41 +81,51 @@
          F <= not ((A and B) or (C and D)); -- The logic of the architecture.
        end V1; -- End of architecture definition.
        -- End of architecture body
-   #+END_SRC
+  #+END_SRC
 ** Libraries
    A library contains multiple names. Use of a library must be specified in a /Library Clause/ at the beginning of a source file. Use of names within the library must be specified in a /Use Clause/.
    #+BEGIN_SRC vhdl
-  -- These lines give the entity access to all names in package
-  -- STD_LOGIC_1164 in the library IEEE.
-  library IEEE; -- library clause
-  use IEEE.STD_LOGIC_1164.all; -- use clause
+     -- These lines give the entity access to all names in package
+     -- STD_LOGIC_1164 in the library IEEE.
+     library IEEE; -- library clause
+     use IEEE.STD_LOGIC_1164.all; -- use clause
    #+END_SRC
 *** Standard Logic Library
     ~IEEE.STD_LOGIC_1164.ALL~ in library ~IEEE~.
 ** Entity
-   An entity is basically an abstraction of a group of components. [[https://www.doulos.com/knowhow/vhdl_designers_guide/an_example_design_entity/][Here is a link to the resource I'm using.]] Every input and output port of an entity is a signal. An entity is broken up into two /design units/: the /Entity Declaration/, and the /Architecture Body/.
-* Data Types
-** Signal
-   A signal is kind of like a variable, except it represents an input/output element of a circuit. All input and output ports of an entity are signals. Example:
+   An entity is basically an abstraction of a group of components. [[https://www.doulos.com/knowhow/vhdl_designers_guide/an_example_design_entity/][Here is a link to a resource I'm using.]] A /port/ is an input/output element of an entity, representing a pin. Every input and output port of an entity is a signal. An entity is broken up into two /design units/: the /Entity Declaration/, and the /Architecture Body/.
+* Signals and Variables
+  The distinction between signals and variables is important. *Signals are not updated sequentially*, and statements involving signals are not executed sequentially. Signals are part of the *simulation*; they are updated in the order that those signals would be updated on an actual circuit.
+  
+  Variables, on the other hand, are more like variables in a classical programming language. Statements assigning value to variables (and also reading from them?) are evaluated in sequential order.
+** Signals
+   A signal is a representation of a value on a wire in a circuit. They *are not handled sequentially*. All input and output ports of an entity are signals. Declaration syntax is ~SIGNAL signal_name: signal_type [range] [:= initial_value];~
+   Declaration example:
    #+BEGIN_SRC vhdl
-  A <= B or C; -- A, B, and C are all signals.
+     signal enable: BIT := '0'; -- Declaration
+     enable <= '1'; -- Assignment
+     A <= B or C; -- A, B, and C are all signals.
    #+END_SRC
+* Data Types
 ** Bit vectors
-   A bit vector is basically just an array of bits. They can be used with gates just like regular bits. 
+   A bit vector is basically just an array of bits. They can be used with gates just like regular bits. Declaration example:
+   #+BEGIN_SRC vhdl
+     signal a = BIT_VECTOR(7 downto 0); -- 8 bits, with index 7 being MSB?
+   #+END_SRC
 *** Example
     The circuit on the right is equivalent to all four of the circuits on the left combined: \\
     [[file:Bit-vector.png]]
     
     Source:
     #+BEGIN_SRC vhdl
-  C(3) <= A(3) and B(3);
-  C(2) <= A(2) and B(2);
-  C(1) <= A(1) and B(1);
-  C(0) <= A(0) and B(0);
+      C(3) <= A(3) and B(3);
+      C(2) <= A(2) and B(2);
+      C(1) <= A(1) and B(1);
+      C(0) <= A(0) and B(0);
     #+END_SRC
     This is equivalent to:
     #+BEGIN_SRC vhdl
-  C <= A and B;
+      C <= A and B;
     #+END_SRC
     
 * Operators
@@ -133,22 +157,22 @@
 ** Concatentation
    ~&~. This is used for grouping objects and values. Example:
    #+BEGIN_SRC vhdl
-  x <= "00011";
-  y := x & "001"; -- Can this be assigned to a bit vector?
-  -- now y is equivalent to "00011001".
+     x <= "00011";
+     y := x & "001"; -- Can this be assigned to a bit vector?
+     -- now y is equivalent to "00011001".
    #+END_SRC
    
 * Timing
 ** Delay
-   Delay is specified using the ~after~ keyword. The signals on the right hand side of the statement are constantly being monitored for change. When one changes, the statement is re-evaluated immediately, then the variable or signal on the left hand side is changed accordingly /after the amount of time specified on the right-hand side/. If an input to a statement is changed before that time has elapsed, output will not be affected by the new value of the input.
+   Delay is specified using the ~after~ keyword. The signals on the right hand side of the statement are constantly being monitored for change. When one changes, the statement is re-evaluated immediately, then theo signal on the left hand side is changed accordingly /after the amount of time specified on the right-hand side/. If an input to a statement is changed before that time has elapsed, output will not be affected by the new value of the input.
 ** Inertial vs. Transport Delay
    Let's say all input signals start with a value of 1. A changes to 0 at 15ns, then to 1 at 30ns, then to 0 at 35ns.
    #+BEGIN_SRC vhdl
- C <= A and B after 10 ns;
+     C <= A and B after 10 ns;
    #+END_SRC
    C will change to 1 at 10ns (because of the inital delay from 0ns), then to 0 at 25ns (in response to A changing at 15ns, taking into account the 10ns delay), but is stuck at 0 and doesn't respond to A's changes at 30ns and 35ns. This is because they occured within 10ns of each other. This problem can be fixed with the *transport* keyword, to specify use of the /transport/ delay model, rather than the /inertial/ delay model.
    #+BEGIN_SRC vhdl
- C <= transport A and B after 10 ns;
+     C <= transport A and B after 10 ns;
    #+END_SRC
    Here, C changes to 1 at 10ns (because of the inital delay from 0ns), then to 0 at 25ns (in response to A changing at 15ns), then to 1 at 40ns, then to 0 at 45ns.
 ** Basic circuit example
@@ -157,21 +181,21 @@
     This describes the flow of data using signals.
 **** Example: Without timings
      #+BEGIN_SRC vhdl
-  E <= D or (A and B);
+       E <= D or (A and B);
      #+END_SRC
      This defines the output signal E as the result of the Boolean algebra statement ~D or (A and B)~.
 **** Example: With timings
      #+BEGIN_SRC vhdl
-  C <= A and B after 5 ns;
-  E <= C or D after 5 ns;
+       C <= A and B after 5 ns;
+       E <= C or D after 5 ns;
      #+END_SRC
      This is similar code to the other example, except that it also includes timing. So, if B is changed, the first line is re-evaluated, and after 5ns, the result assigned to C. Then, because there was a change in C, the second statement is re-evaluated, then after 5ns, assigned to E (total time since B changed is now 10ns). This helps simulate the timings that will occur on real hardware.
 *** Structural description
     This is when you have to define the gates you're using, then describe how they're used.
 **** Example
      #+BEGIN_SRC vhdl
-  Gate1: AND2 port map (A, B, C);
-  Gate2: OR2 port map (C, D, E);
+       Gate1: AND2 port map (A, B, C);
+       Gate2: OR2 port map (C, D, E);
      #+END_SRC
 **** Explanation
      Two gates are defined: Gate1, which is an AND gate with 2 inputs (hence AND2) and 1 output, and Gate2, which is an OR gate with 2 inputs (hence OR2) and one output. The first two signals listed in the parenthesis are the inputs, and the last is the output.
@@ -181,10 +205,10 @@
 *** Source
     The following source is correct:
     #+BEGIN_SRC vhdl
-  CLK <= not CLK after 10 ns;
+      CLK <= not CLK after 10 ns;
     #+END_SRC
     However, the following source is incorrect and will cause a runtime error:
     #+BEGIN_SRC vhdl
-  CLK <= not CLK;
+      CLK <= not CLK;
     #+END_SRC
     This is because there is no delay time, so the value of CLK tries to switch every 0ns, and time will never advance to 1ns. 
